@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cat"
+            type="kr.f.lab.findmycat.domain.Cat"/>
+
+        <variable
+            name="clickListener"
+            type="kr.f.lab.findmycat.ui.list.CatClickListener"/>
+    </data>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:onClick="@{()->clickListener.onClick(cat)}"
+        android:text="@{cat.name}"
+        tools:text="cat_item"/>
+
+</layout>

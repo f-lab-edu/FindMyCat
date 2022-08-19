@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_cat_list">
+
+    <fragment
+        android:id="@+id/fragment_cat_list"
+        android:name="kr.f.lab.findmycat.ui.list.CatListFragment"
+        tools:layout="@layout/fragment_cat_list">
+
+        <action
+            android:id="@+id/action_fragment_cat_list_to_fragment_cat_detail"
+            app:destination="@id/fragment_cat_detail"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_cat_detail"
+        android:name="kr.f.lab.findmycat.ui.detail.CatDetailFragment"
+        tools:layout="@layout/fragment_cat_detail">
+
+        <argument
+            android:name="query"
+            android:defaultValue=""
+            app:nullable="true"
+            app:argType="string"/>
+    </fragment>
+
+</navigation>
