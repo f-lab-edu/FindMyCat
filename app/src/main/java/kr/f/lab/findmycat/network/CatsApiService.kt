@@ -24,6 +24,7 @@ private val loggingInterceptor = HttpLoggingInterceptor().apply {
 val headersInterceptor = Interceptor { chain ->
     with(chain) {
         val newRequest = request().newBuilder()
+            .addHeader("x-api-key", "")
             .build()
         proceed(newRequest)
     }
