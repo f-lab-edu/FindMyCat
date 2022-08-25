@@ -4,6 +4,7 @@ import com.flab.findmycat.domain.DetailCats
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.flab.findmycat.domain.Cat
+import com.flab.findmycat.domain.DetailCat
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -33,8 +34,8 @@ interface CatsApiService {
     @GET("breeds")
     suspend fun getCats(@Query("page") page: Int, @Query("limit") limit: Int): List<Cat>
 
-    @GET("images/search?breed_id={breed-id}")
-    suspend fun getSearchCat(@Query("q") q: String): DetailCats
+    @GET("images/search")
+    suspend fun getSearchCat(@Query("breed_id") breedId: String): List<DetailCat>
 }
 
 object CatApi {

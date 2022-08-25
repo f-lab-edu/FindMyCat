@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.flab.findmycat.databinding.FragmentCatListBinding
 
 class CatListFragment : Fragment() {
@@ -20,6 +21,8 @@ class CatListFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.photosGrid.adapter = CatListAdapter(this, CatClickListener { query ->
+            val action = CatListFragmentDirections.actionFragmentCatListToFragmentCatDetail(query)
+            findNavController().navigate(action)
         })
 
         return binding.root

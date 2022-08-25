@@ -9,6 +9,22 @@
         android:id="@+id/fragment_cat_list"
         android:name="com.flab.findmycat.ui.list.CatListFragment"
         tools:layout="@layout/fragment_cat_list">
+
+        <action
+            android:id="@+id/action_fragment_cat_list_to_fragment_cat_detail"
+            app:destination="@id/fragment_cat_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_cat_detail"
+        android:name="com.flab.findmycat.ui.detail.CatDetailFragment"
+        tools:layout="@layout/fragment_cat_detail">
+
+        <argument
+            android:name="query"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>
