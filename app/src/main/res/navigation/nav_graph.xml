@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_cat_detail">
 
         <argument
-            android:name="query"
+            android:name="breed_id"
             android:defaultValue=""
             app:argType="string"
     </fragment>
