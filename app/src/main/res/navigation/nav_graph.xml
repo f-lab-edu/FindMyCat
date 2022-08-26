@@ -24,7 +24,6 @@
             android:name="query"
             android:defaultValue=""
             app:argType="string"
-            app:nullable="true" />
     </fragment>
 
 </navigation>
