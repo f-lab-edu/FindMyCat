@@ -23,7 +23,7 @@ class CatDetailFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.apply {
-            getCatDetail(safeArgs.query ?: "")
+            getCatDetail(safeArgs.breedId)
         }
 
         return binding.root
