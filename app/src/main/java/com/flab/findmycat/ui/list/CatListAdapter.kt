@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flab.findmycat.databinding.CatItemBinding
 import com.flab.findmycat.domain.Cat
 
-class CatClickListener(val clickListener: (id: String) -> Unit) {
-    fun onClick(cat: Cat) = clickListener(cat.id ?: "")
+interface CatClickListener {
+    fun onClick(cat: Cat)
 }
 
-class CatListAdapter(private val lifecycleOwner: LifecycleOwner, private val clickListener: CatClickListener) :
-    ListAdapter<Cat, CatListAdapter.CatListViewHolder>(DiffCallback) {
+class CatListAdapter(
+    private val lifecycleOwner: LifecycleOwner,
+    private val clickListener: CatClickListener
+) : ListAdapter<Cat, CatListAdapter.CatListViewHolder>(DiffCallback) {
 
     class CatListViewHolder(
         private var binding: CatItemBinding,
