@@ -9,15 +9,15 @@ import com.flab.findmycat.network.CatApi
 import kotlinx.coroutines.launch
 
 class CatDetailViewModel : ViewModel() {
-    private val _catDetail = MutableLiveData<Image>()
-    val catDetail: LiveData<Image> = _catDetail
+    private val _cats = MutableLiveData<List<Image>>()
+    val cats: LiveData<List<Image>> = _cats
 
-    fun getCatDetail(query: String) {
+    fun getCatDetails(query: String) {
         viewModelScope.launch {
             try {
-                _catDetail.value = CatApi.retrofitService.getSearchCat(query)[0]
+                _cats.value = CatApi.retrofitService.getSearchCats(query)
             } catch (e: Exception) {
-                _catDetail.value = null
+                _cats.value = emptyList()
             }
         }
     }

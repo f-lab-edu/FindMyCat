@@ -1,9 +1,9 @@
 package com.flab.findmycat.network
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.flab.findmycat.domain.Cat
 import com.flab.findmycat.domain.Image
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,7 +34,7 @@ interface CatsApiService {
     suspend fun getCats(@Query("page") page: Int, @Query("limit") limit: Int): List<Cat>
 
     @GET("images/search")
-    suspend fun getSearchCat(@Query("breed_id") breedId: String): List<Image>
+    suspend fun getSearchCats(@Query("breed_id") breedId: String): List<Image>
 }
 
 object CatApi {

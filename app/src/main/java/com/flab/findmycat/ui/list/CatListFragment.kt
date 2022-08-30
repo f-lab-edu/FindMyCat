@@ -17,7 +17,6 @@ class CatListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val binding = FragmentCatListBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -28,7 +27,6 @@ class CatListFragment : Fragment() {
                 findNavController().navigate(action)
             }
         })
-
         return binding.root
     }
 }
