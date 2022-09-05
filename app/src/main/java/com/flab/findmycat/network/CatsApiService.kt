@@ -3,7 +3,6 @@ package com.flab.findmycat.network
 import com.flab.findmycat.domain.Cat
 import com.flab.findmycat.domain.Image
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,7 +13,6 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://api.thecatapi.com/v1/"
 
 private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
     .build()
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
