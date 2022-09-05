@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 const val INITIAL_PAGE_INDEX = 0
-const val NETWORK_PAGE_SIZE = 7
+const val NETWORK_PAGE_SIZE = 10
 
 open class CatListDataSource(
     private val catApiService: CatsApiService

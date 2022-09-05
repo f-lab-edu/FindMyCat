@@ -37,8 +37,7 @@ class CatListAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Cat, newItem: Cat): Boolean {
-            return oldItem.name == newItem.name
-                    && oldItem.image == newItem.image
+            return oldItem == newItem
         }
     }
 
