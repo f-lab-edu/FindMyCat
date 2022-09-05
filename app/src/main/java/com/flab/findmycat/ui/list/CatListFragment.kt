@@ -2,21 +2,19 @@ package com.flab.findmycat.ui.list
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.flab.findmycat.databinding.FragmentCatListBinding
 import com.flab.findmycat.domain.Cat
 
 class CatListFragment : Fragment() {
     private val viewModel: CatListViewModel by viewModels()
-
-    val listAdapter by lazy {
+    private val listAdapter by lazy {
         CatListAdapter(this, object : CatClickListener {
             override fun onClick(cat: Cat) {
                 val action =
@@ -25,6 +23,7 @@ class CatListFragment : Fragment() {
             }
         })
     }
+    private var count = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,18 +34,11 @@ class CatListFragment : Fragment() {
         binding.viewModel = viewModel
         binding.photosGrid.adapter = listAdapter
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.photosGrid.addOnScrollListener(object : RecyclerViewPaginator(binding.photosGrid),
-                View.OnScrollChangeListener {
-                override val isLastPage: Boolean
-                    get() = viewModel.isLast
-
-                override fun loadMore(page: Long, count: Long) {
-                    viewModel.getCats(page.toInt())
-                }
-
-                override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
-                    Log.d("TEST", "onScrollChange()")
-                    super.onScrolled(v as RecyclerView, scrollX, scrollY)
+            binding.idNestedSV.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
+                if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                    if (count < NETWORK_PAGE_SIZE) {
+                        viewModel.getCats(count++)
+                    }
                 }
             })
         }
