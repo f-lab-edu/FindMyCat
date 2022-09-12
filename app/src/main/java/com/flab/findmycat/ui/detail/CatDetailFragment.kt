@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.flab.findmycat.databinding.FragmentCatDetailBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CatDetailFragment : Fragment() {
-    private val viewModel: CatDetailViewModel by viewModels()
+    private val viewModel: CatDetailViewModel by sharedViewModel()
     private val safeArgs: CatDetailFragmentArgs by navArgs()
 
     private val detailAdapter by lazy {

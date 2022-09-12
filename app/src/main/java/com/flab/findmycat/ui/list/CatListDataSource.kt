@@ -3,7 +3,7 @@ package com.flab.findmycat.ui.list
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.flab.findmycat.domain.Cat
-import com.flab.findmycat.network.CatsApiService
+import com.flab.findmycat.network.CatsApi
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -11,7 +11,7 @@ const val INITIAL_PAGE_INDEX = 0
 const val NETWORK_PAGE_SIZE = 10
 
 open class CatListDataSource(
-    private val catApiService: CatsApiService
+    private val catApiService: CatsApi
 ) : PagingSource<Int, Cat>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cat> {

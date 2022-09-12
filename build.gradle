@@ -6,6 +6,7 @@ buildscript {
         // library defined in the app Gradle file
         kotlin_version = "1.5.31"
         navigation_version = "2.5.1"
+        koin_version= "3.2.0"
     }
     repositories {
         google()

@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.flab.findmycat.databinding.FragmentCatListBinding
 import com.flab.findmycat.domain.Cat
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CatListFragment : Fragment() {
-    private val viewModel: CatListViewModel by viewModels()
+    private val viewModel: CatListViewModel by sharedViewModel()
     private val listAdapter by lazy {
         CatListAdapter(this, object : CatClickListener {
             override fun onClick(cat: Cat) {
