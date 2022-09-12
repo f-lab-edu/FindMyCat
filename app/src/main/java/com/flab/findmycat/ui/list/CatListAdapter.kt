@@ -13,9 +13,16 @@ interface CatClickListener {
     fun onClick(cat: Cat)
 }
 
+interface LoadMoreListener {
+    fun load()
+}
+
+const val NETWORK_PAGE_SIZE = 10
+
 class CatListAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val clickListener: CatClickListener
+    private val clickListener: CatClickListener,
+    private val loadMore: LoadMoreListener
 ) : ListAdapter<Cat, CatListAdapter.CatListViewHolder>(DiffCallback) {
 
     class CatListViewHolder(
@@ -54,6 +61,9 @@ class CatListAdapter(
 
     override fun onBindViewHolder(holder: CatListViewHolder, position: Int) {
         val cat = getItem(position)
+        if (itemCount - position < 2) {
+            loadMore.load()
+        }
         holder.bind(cat)
     }
 }

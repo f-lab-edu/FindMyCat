@@ -1,11 +1,9 @@
 package com.flab.findmycat.ui.list
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.flab.findmycat.databinding.FragmentCatListBinding
@@ -21,9 +19,12 @@ class CatListFragment : Fragment() {
                     CatListFragmentDirections.actionFragmentCatListToFragmentCatDetail(cat.id)
                 findNavController().navigate(action)
             }
+        }, object : LoadMoreListener {
+            override fun load() {
+                viewModel.getCats()
+            }
         })
     }
-    private var count = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +34,6 @@ class CatListFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.photosGrid.adapter = listAdapter
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.idNestedSV.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
-                if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
-                    if (count < NETWORK_PAGE_SIZE) {
-                        viewModel.getCats(count++)
-                    }
-                }
-            })
-        }
 
         viewModel.cats.observe(viewLifecycleOwner) {
             listAdapter.submitList(it.toMutableList())

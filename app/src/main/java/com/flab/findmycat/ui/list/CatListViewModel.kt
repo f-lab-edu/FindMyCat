@@ -14,17 +14,18 @@ class CatListViewModel(
     private val _cats = MutableLiveData<List<Cat>>()
     val cats: LiveData<List<Cat>> = _cats
 
-    private var page: Int = INITIAL_PAGE_INDEX
+    var mPage: Int = 0
     var isLast: Boolean = false
 
     init {
-        getCats(page)
+        getCats()
     }
 
-    fun getCats(page: Int) {
+    fun getCats() {
         viewModelScope.launch {
             try {
-                val list = catsApi.getCats(page, NETWORK_PAGE_SIZE)
+                val list = catsApi.getCats(mPage, NETWORK_PAGE_SIZE)
+                mPage += 1
                 _cats.value = _cats.value?.plus(list) ?: list
                 if (list.isEmpty()) {
                     isLast = true
