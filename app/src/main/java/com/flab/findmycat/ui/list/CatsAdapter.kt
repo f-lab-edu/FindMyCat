@@ -22,12 +22,10 @@ class CatsAdapter(
 
     class CatsViewHolder(
         private val binding: CatItemBinding,
-        private val clickListener: CatClickListener,
-        private val lifecycleOwner: LifecycleOwner
+        private val clickListener: CatClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cat: Cat) {
-            binding.lifecycleOwner = lifecycleOwner
             binding.clickListener = clickListener
             binding.cat = cat
         }
@@ -44,11 +42,9 @@ class CatsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatsViewHolder {
-        return CatsViewHolder(
-            CatItemBinding.inflate(LayoutInflater.from(parent.context)),
-            clickListener,
-            lifecycleOwner
-        )
+        val binding = CatItemBinding.inflate(LayoutInflater.from(parent.context))
+        binding.lifecycleOwner = lifecycleOwner
+        return CatsViewHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: CatsViewHolder, position: Int) {
