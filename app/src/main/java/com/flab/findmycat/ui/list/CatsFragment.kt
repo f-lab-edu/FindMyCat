@@ -10,22 +10,17 @@ import androidx.navigation.fragment.findNavController
 import com.flab.findmycat.databinding.FragmentCatsBinding
 import com.flab.findmycat.domain.Cat
 import com.flab.findmycat.network.ResultOf
-import com.flab.findmycat.util.LoadMoreListener
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CatsFragment : Fragment() {
     private val viewModel: CatsViewModel by sharedViewModel()
     private val listAdapter by lazy {
-        CatsAdapter(this, object : CatClickListener {
+        CatsAdapter(viewLifecycleOwner, object : CatClickListener {
             override fun onClick(cat: Cat) {
                 val action = CatsFragmentDirections.actionFragmentCatsToFragmentCatDetail(cat.id)
                 findNavController().navigate(action)
             }
-        }, object : LoadMoreListener {
-            override fun loadMore() {
-                viewModel.getCats()
-            }
-        })
+        }, viewModel.loadMoreListener)
     }
 
     override fun onCreateView(

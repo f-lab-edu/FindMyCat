@@ -8,29 +8,34 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.flab.findmycat.databinding.CatDetailItemBinding
 import com.flab.findmycat.domain.Image
+import com.flab.findmycat.util.LoadMoreListener
 
 class CatDetailAdapter(
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val catDetailViewModel: LoadMoreListener
 ) : ListAdapter<Image, CatDetailAdapter.CatDetailViewHolder>(DiffCallback) {
 
     class CatDetailViewHolder(
-        private val binding: CatDetailItemBinding,
-        private val lifecycleOwner: LifecycleOwner
+        private val binding: CatDetailItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(image: Image) {
-            binding.lifecycleOwner = lifecycleOwner
-            binding.image = image
+        fun bind(image: Image?) {
+            binding.imageUrl = image?.url
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatDetailViewHolder {
-        return CatDetailViewHolder(CatDetailItemBinding.inflate(LayoutInflater.from(parent.context)), lifecycleOwner)
+        val binding = CatDetailItemBinding.inflate(LayoutInflater.from(parent.context))
+        binding.lifecycleOwner = lifecycleOwner
+        return CatDetailViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CatDetailViewHolder, position: Int) {
-        val cat = getItem(position)
-        holder.bind(cat)
+        val image = getItem(position)
+        holder.bind(image)
+        if (itemCount - position < 2) {
+            catDetailViewModel.loadMore()
+        }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Image>() {

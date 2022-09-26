@@ -21,13 +21,11 @@ class CatsAdapter(
 ) : ListAdapter<Cat, CatsAdapter.CatsViewHolder>(DiffCallback) {
 
     class CatsViewHolder(
-        private val binding: CatItemBinding,
-        private val clickListener: CatClickListener
+        private val binding: CatItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cat: Cat) {
-            binding.clickListener = clickListener
-            binding.cat = cat
+        fun bind(model: CatListUiModel) {
+            binding.model = model
         }
     }
 
@@ -44,14 +42,19 @@ class CatsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatsViewHolder {
         val binding = CatItemBinding.inflate(LayoutInflater.from(parent.context))
         binding.lifecycleOwner = lifecycleOwner
-        return CatsViewHolder(binding, clickListener)
+        binding.root.setOnClickListener {
+            binding.model?.index?.let(::getItem)
+                ?.let(clickListener::onClick)
+        }
+        return CatsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CatsViewHolder, position: Int) {
         val cat = getItem(position)
+        holder.bind(CatListUiModel(position, cat.image))
+
         if (itemCount - position < 2) {
             loadMoreListener.loadMore()
         }
-        holder.bind(cat)
     }
 }

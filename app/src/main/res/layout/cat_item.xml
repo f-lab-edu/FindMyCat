@@ -7,12 +7,8 @@
     <data>
 
         <variable
-            name="cat"
-            type="com.flab.findmycat.domain.Cat"/>
-
-        <variable
-            name="clickListener"
-            type="com.flab.findmycat.ui.list.CatClickListener"/>
+            name="model"
+            type="com.flab.findmycat.ui.list.CatListUiModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,9 +18,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:onClick="@{()->clickListener.onClick(cat)}"
             android:scaleType="centerCrop"
-            app:imageUrl="@{cat.image.url}"
+            app:imageUrl="@{model.image.url}"
             app:layout_constraintDimensionRatio="h,4:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

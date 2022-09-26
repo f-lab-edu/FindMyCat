@@ -3,38 +3,51 @@ package com.flab.findmycat.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.flab.findmycat.domain.Cat
+import com.flab.findmycat.domain.Image
 import com.flab.findmycat.network.CatsApi
-import com.flab.findmycat.network.NETWORK_PAGE_SIZE
+import com.flab.findmycat.network.CatsApi.Companion.NETWORK_PAGE_SIZE
 import com.flab.findmycat.network.ResultOf
+import com.flab.findmycat.util.LoadMoreListener
 import kotlinx.coroutines.launch
+
+data class CatListUiModel(val index: Int, val image: Image?)
 
 class CatsViewModel(
     private val catsApi: CatsApi
 ) : ViewModel() {
     private val _catsResultOf = MutableLiveData<ResultOf<List<Cat>>>()
     val catsResultOf: LiveData<ResultOf<List<Cat>>> = _catsResultOf
-    private val _cats = MutableLiveData<List<Cat>>()
 
-    private val _page = MutableLiveData<Int>()
+    private var page = 0
 
-    init {
-        _page.value = 0
+    private var isLast: Boolean = false
+    private val isLoading: Boolean get() = _catsResultOf.value is ResultOf.Loading
+    private val items = _catsResultOf.map {
+        if (it is ResultOf.Success) it.value
+        else emptyList()
+    }
+
+    val loadMoreListener = LoadMoreListener {
+        if (isLast || isLoading) return@LoadMoreListener
         getCats()
     }
 
-    fun getCats() {
+    init {
+        page = 0
+        getCats()
+    }
+
+    private fun getCats() {
         viewModelScope.launch {
             try {
-                _catsResultOf.postValue(ResultOf.Loading)
-                val list = catsApi.getCats(_page.value ?: 0, NETWORK_PAGE_SIZE)
-                _page.postValue(_page.value?.plus(1))
-
-                val results = _cats.value?.plus(list) ?: list
-                _cats.value = results
-
-                _catsResultOf.postValue(ResultOf.Success(results))
+                _catsResultOf.value = ResultOf.Loading
+                val list = catsApi.getCats(page, NETWORK_PAGE_SIZE)
+                page++
+                isLast = list.isEmpty()
+                _catsResultOf.value = ResultOf.Success(list.plus(items.value) as List<Cat>)
             } catch (e: Exception) {
                 _catsResultOf.postValue(ResultOf.Failure("error${e.message}"))
             }

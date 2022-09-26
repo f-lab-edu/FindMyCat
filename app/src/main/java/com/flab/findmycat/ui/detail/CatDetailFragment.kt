@@ -16,7 +16,7 @@ class CatDetailFragment : Fragment() {
     private val args: CatDetailFragmentArgs by navArgs()
 
     private val detailAdapter by lazy {
-        CatDetailAdapter(this)
+        CatDetailAdapter(this,  viewModel.loadMoreListener)
     }
 
     override fun onCreateView(
@@ -25,6 +25,7 @@ class CatDetailFragment : Fragment() {
     ): View {
         val binding = FragmentCatDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
+        viewModel.breedId = args.breedId
         binding.viewModel = viewModel
         binding.listCats.adapter = detailAdapter
 

@@ -11,14 +11,21 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.thecatapi.com/v1/"
-const val NETWORK_PAGE_SIZE = 10
 
 interface CatsApi {
     @GET("breeds")
     suspend fun getCats(@Query("page") page: Int, @Query("limit") limit: Int): List<Cat>
 
     @GET("images/search")
-    suspend fun getSearchCats(@Query("breed_id") breedId: String): List<Image>
+    suspend fun getSearchCats(
+        @Query("breed_id") breedId: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): List<Image>
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 10
+    }
 }
 
 fun provideCatApi(retrofit: Retrofit): CatsApi = retrofit.create(CatsApi::class.java)
@@ -40,7 +47,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         .client(okHttpClient)
         .build()
 }
-
 
 
 

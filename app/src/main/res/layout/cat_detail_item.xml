@@ -7,15 +7,25 @@
     <data>
 
         <variable
-            name="image"
-            type="com.flab.findmycat.domain.Image"/>
+            name="imageUrl"
+            type="String"/>
     </data>
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:imageUrl="@{image.url}"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="500dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{imageUrl}"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
