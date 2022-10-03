@@ -10,10 +10,10 @@ import androidx.navigation.fragment.findNavController
 import com.flab.findmycat.databinding.FragmentCatsBinding
 import com.flab.findmycat.domain.Cat
 import com.flab.findmycat.network.ResultOf
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CatsFragment : Fragment() {
-    private val viewModel: CatsViewModel by sharedViewModel()
+    private val viewModel: CatsViewModel by viewModel()
     private val listAdapter by lazy {
         CatsAdapter(viewLifecycleOwner, object : CatClickListener {
             override fun onClick(cat: Cat) {
@@ -38,7 +38,6 @@ class CatsFragment : Fragment() {
                     binding.progressbar.visibility = View.VISIBLE
                 }
                 is ResultOf.Success -> {
-                    listAdapter.submitList(results.value)
                     binding.progressbar.visibility = View.INVISIBLE
                 }
                 is ResultOf.Failure -> {
@@ -47,6 +46,8 @@ class CatsFragment : Fragment() {
                 }
             }
         }
+        viewModel.items.observe(viewLifecycleOwner, listAdapter::submitList)
+
         return binding.root
     }
 }

@@ -1,5 +1,6 @@
 package com.flab.findmycat.ui.list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +26,7 @@ class CatsViewModel(
 
     private var isLast: Boolean = false
     private val isLoading: Boolean get() = _catsResultOf.value is ResultOf.Loading
-    private val items = _catsResultOf.map {
+    val items = _catsResultOf.map {
         if (it is ResultOf.Success) it.value
         else emptyList()
     }
@@ -40,14 +41,20 @@ class CatsViewModel(
         getCats()
     }
 
+    private val current
+        get() = when (val value = _catsResultOf.value) {
+            is ResultOf.Success -> value.value
+            else -> emptyList()
+        }
+
     private fun getCats() {
         viewModelScope.launch {
             try {
+                val current = current
                 _catsResultOf.value = ResultOf.Loading
-                val list = catsApi.getCats(page, NETWORK_PAGE_SIZE)
-                page++
-                isLast = list.isEmpty()
-                _catsResultOf.value = ResultOf.Success(list.plus(items.value) as List<Cat>)
+                val list = catsApi.getCats(page++, NETWORK_PAGE_SIZE)
+                isLast = list.size < NETWORK_PAGE_SIZE
+                _catsResultOf.value = ResultOf.Success(current + list)
             } catch (e: Exception) {
                 _catsResultOf.postValue(ResultOf.Failure("error${e.message}"))
             }
