@@ -52,8 +52,11 @@ class CatsAdapter(
     override fun onBindViewHolder(holder: CatsViewHolder, position: Int) {
         val cat = getItem(position)
         holder.bind(CatListUiModel(position, cat.image))
-
-        if (itemCount - position < 2) {
+        // 리사이클러뷰에 에드 스크롤 리스너 추가해서 로드모어 구현하는 경우 있다.
+        // 프레임단위라 오버헤드 많다. 1초에 30번씩 호출될수있다.
+        // onScroll은 여러번 호출됨.
+        // 페이징 라이브러리 써서 구현하는 것 효율적임.
+        if (itemCount - position < 2) {//TODO 타입과 span 생성자로 넘겨오기
             loadMoreListener.loadMore()
         }
     }
