@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_cats">
+
+    <fragment
+        android:id="@+id/fragment_cats"
+        android:name="com.flab.findmycat.ui.list.CatsFragment"
+        tools:layout="@layout/fragment_cats">
+
+        <action
+            android:id="@+id/action_fragment_cats_to_fragment_cat_detail"
+            app:destination="@id/fragment_cat_detail"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_cat_detail"
+        android:name="com.flab.findmycat.ui.detail.CatDetailFragment"
+        tools:layout="@layout/fragment_cat_detail">
+
+        <argument
+            android:name="breedId"
+            android:defaultValue=""
+            app:argType="string"/>
+    </fragment>
+</navigation>
